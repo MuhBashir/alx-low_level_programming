@@ -1,7 +1,7 @@
-#include "stdio.h"
+#include "maini.h"
 
 /**
- * main - program that prints Holberton.
+ * main - program that prints _putschar.
  *
  * Return: int
  */
@@ -13,9 +13,9 @@ int main(void)
 
 	while (n < 8)
 	{
-		putchar(str_hbt[n]);
+		_putchar(str_hbt[n]);
 		n += 1;
 	}
-	putchar('\n');
+	_putchar('\n');
 	return (0);
 }
