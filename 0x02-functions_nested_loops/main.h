@@ -11,10 +11,7 @@
 #ifndef MAIN_IF_INCLUDED
 #define MAIN_IF_INCLUDED
 
-int _putchar(char c)
-{
-	return (write(1, &c, 1));
-}	
+int _putchar(char c);
 
 #endif
 
