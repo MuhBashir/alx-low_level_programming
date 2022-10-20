@@ -1,22 +1,22 @@
 #include "main.h"
-
 /**
- * more_numbers -  function that prints 10 times the numbers, from 0 to 14.
+ * more_numbers - prints 10 times the numbers
  *
- * Return: nothing.
+ * Return: a serie of number 10 times
  */
-
 void more_numbers(void)
 {
-	int x, y;
+	int a, b;
 
-	for (x = 0; x < 10; x++)
+	for (a = 0 ; a <= 9 ; a++)
 	{
-		for (y = 0; y <= 14; y++)
+		for (b = 0 ; b <= 14 ; b++)
 		{
-			if (y > 9)
-				_putchar((y / 10) + '0');
-			_putchar((y % 10) + '0');
+			if (b >= 10)
+			{
+				_putchar(b / 10 + '0');
+			}
+			_putchar(b % 10 + '0');
 		}
 		_putchar('\n');
 	}
