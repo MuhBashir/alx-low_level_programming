@@ -1,86 +1,55 @@
-#include "main.h"
 
-char *_strcat(char *dest, char *src);
+#include "holberton.h"
+#include <stdlib.h>
 
 /**
  * argstostr - concatenates all the arguments
- * @av: the content
- * @ac: the size of the content
+ * @ac: number of arguments to be concatenated
+ * @av: input array of arguments
  *
- * Return: a pointer to a new string
+ * Return: a pointer to a new string, or NULL if it fails
  */
+
 char *argstostr(int ac, char **av)
 {
-	char *new, *salt;
-	int i, j, k;
+	int count = 0;
+	int i;
+	int j = 0;
+	int k = 0;
+	char *ptr = NULL;
 
 	if (ac == 0 || av == NULL)
-	{
 		return (NULL);
-	}
-	else
+	for (i = 0; i < ac; i++)
 	{
-		for (i = 0, k = 0 ; i < ac ; i++, k++)
+		while (av[i][k] != '\0')
 		{
-			for (j = 0 ; av[i][j] != '\0' ; j++, k++)
-			{
-				;
-			}
+			count = count + 1;
+			k++;
 		}
-		new = malloc(sizeof(char) * (k + 1));
-		salt = "\n";
-		for (i = 0 ; i < ac ; i++)
-		{
-			new = _strcat(new, av[i]);
-			if (new == NULL)
-			{
-				return (NULL);
-			}
-			if (i + 1 < ac)
-			{
-				new = _strcat(new, salt);
-				if (new == NULL)
-				{
-					return (NULL);
-				}
-			}
-		}
+		count++;
+		k = 0;
+	}
 
-	}
-	new = _strcat(new, salt);
-	if (new == NULL)
-	{
+	count++;
+	ptr = malloc(count * sizeof(char));
+
+	if (ptr == NULL)
 		return (NULL);
-	}
-	return (new);
-}
 
-/**
- * _strcat - concatenates two strings
- * @dest: input parameter string
- * @src: input parameter string
- *
- * Return: dest
- */
-char *_strcat(char *dest, char *src)
-{
-	int a;
-	int b;
-
-	a = 0;
-
-	while (dest[a] != 0)
+	for (i = 0; i < ac; i++)
 	{
-		a++;
+
+		while (av[i][k] != '\0')
+		{
+			ptr[j++] = av[i][k];
+			k++;
+		}
+		ptr[j++] = '\n';
+		k = 0;
 	}
 
-	b = 0;
+	ptr[j] = '\0';
 
-	while (src[b] != 0)
-	{
-		dest[a] = src[b];
-		a++;
-		b++;
-	}
-	return (dest);
+	return (ptr);
 }
