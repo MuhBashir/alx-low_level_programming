@@ -1,8 +1,6 @@
-
-
 #include <stdio.h>
 #include <stdlib.h>
-#include "holberton.h"
+#include "main.h"
 /**
 * main - multiply 2 numbers as arguments
 * @argc: number of arguments
