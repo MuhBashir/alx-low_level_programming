@@ -1,174 +1,115 @@
-#include <stdlib.h>
 #include "main.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /**
- * _calloc - allocate (`size' * `nmemb') bytes and set to 0
- * @nmemb: number of elements
- * @size: number of bytes per element
+ * _isdigit - checks if character is digit
+ * @c: the character to check
  *
- * Return: pointer to memory, or NULL if `nmemb' or `size' is 0 or malloc fails
+ * Return: 1 if digit, 0 otherwise
  */
-void *_calloc(unsigned int nmemb, unsigned int size)
+int _isdigit(int c)
 {
-	unsigned int i;
-	char *p;
-
-	if (size == 0 || nmemb == 0)
-		return (NULL);
-	p = malloc(nmemb * size);
-	if (p == NULL)
-		return (NULL);
-	for (i = 0; i < nmemb * size; ++i)
-		p[i] = 0;
-	return (p);
+	return (c >= '0' && c <= '9');
 }
 
 /**
- * _strdigit - check if string `s' is composed only of digits
- * @s: string to check
+ * _strlen - returns the length of a string
+ * @s: the string whose length to check
  *
- * Return: 1 if true, 0 if false
- */
-int _strdigit(char *s)
-{
-	if (*s == '-' || *s == '+')
-		++s;
-	while (*s)
-	{
-		if (*s < '0' || *s > '9')
-		{
-			return (0);
-		}
-		++s;
-	}
-	return (1);
-}
-
-/**
- * _puts - print string `s'
- * @s: string to print
- */
-void _puts(char *s)
-{
-	while (*s)
-		_putchar(*(s++));
-}
-
-/**
- * rev_num_str - reverse a number string up to trailing zeros
- * @start: beginning of number
- * @end: end of number
- * @ns: string containing number
- */
-void rev_num_str(int start, int end, char *ns)
-{
-	int i, j;
-	char tmp;
-
-	while (ns[end] == 0 && end != start)
-		--end;
-	for (i = start, j = end; i <= j; ++i, --j)
-	{
-		tmp = ns[i] + '0';
-		ns[i] = ns[j] + '0';
-		ns[j] = tmp;
-	}
-}
-
-/**
- * _strlen - calculate length of string `s'
- * @s: string to get length of
- *
- * Return: length of string
+ * Return: integer length of string
  */
 int _strlen(char *s)
 {
-	int i;
+	int i = 0;
 
-	for (i = 0; s[i]; ++i)
-		;
+	while (*s++)
+		i++;
 	return (i);
 }
 
 /**
- * strmul - multply two numbers as strings
- * @a: first number
- * @b: second number
+ * big_multiply - multiply two big number strings
+ * @s1: the first big number string
+ * @s2: the second big number string
  *
- * Return: pointer to result on success, or NULL on failure
+ * Return: the product big number string
  */
-char *strmul(char *a, char *b)
+char *big_multiply(char *s1, char *s2)
 {
-	int la, lb, i, j, k, l, neg = 0;
-	char *result;
-	char mul, mul_carry, sum, sum_carry;
+	char *r;
+	int l1, l2, a, b, c, x;
 
-	if (*a == '-')
+	l1 = _strlen(s1);
+	l2 = _strlen(s2);
+	r = malloc(a = x = l1 + l2);
+	if (!r)
+		printf("Error\n"), exit(98);
+	while (a--)
+		r[a] = 0;
+
+	for (l1--; l1 >= 0; l1--)
 	{
-		neg ^= 1;
-		++a;
-	}
-	if (*b == '-')
-	{
-		neg ^= 1;
-		++b;
-	}
-	la = _strlen(a);
-	lb = _strlen(b);
-	result = _calloc(la + lb + 1 + neg, sizeof(char));
-	if (result == NULL)
-		return (NULL);
-	if (neg)
-		result[0] = '-';
-	for (i = lb - 1, l = neg; i >= 0; --i, ++l)
-	{
-		mul_carry = 0;
-		sum_carry = 0;
-		for (j = la - 1, k = l; j >= 0; --j, ++k)
+		if (!_isdigit(s1[l1]))
 		{
-			mul = (a[j] - '0') * (b[i] - '0') + mul_carry;
-			mul_carry = mul / 10;
-			mul %= 10;
-			sum = result[k] + mul + sum_carry;
-			sum_carry = sum / 10;
-			sum %= 10;
-			result[k] = sum;
+			free(r);
+			printf("Error\n"), exit(98);
 		}
-		result[k] = sum_carry + mul_carry;
+		a = s1[l1] - '0';
+		c = 0;
+
+		for (l2 = _strlen(s2) - 1; l2 >= 0; l2--)
+		{
+			if (!_isdigit(s2[l2]))
+			{
+				free(r);
+				printf("Error\n"), exit(98);
+			}
+			b = s2[l2] - '0';
+
+			c += r[l1 + l2 + 1] + (a * b);
+			r[l1 + l2 + 1] = c % 10;
+
+			c /= 10;
+		}
+		if (c)
+			r[l1 + l2 + 1] += c;
 	}
-	rev_num_str(neg, k, result);
-	return (result);
+	return (r);
 }
 
+
 /**
- * main - multiply two numbers from the command line and print the result
- * @argc: argument count
- * @argv: argument list
+ * main - multiply two big number strings
+ * @argc: the number of arguments
+ * @argv: the argument vector
  *
- * Return: 0 if successful, 98 if failure
+ * Return: Always 0 on success.
  */
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
-	char *result;
+	char *r;
+	int a, c, x;
 
 	if (argc != 3)
+		printf("Error\n"), exit(98);
+
+	x = _strlen(argv[1]) + _strlen(argv[2]);
+	r = big_multiply(argv[1], argv[2]);
+	c = 0;
+	a = 0;
+	while (c < x)
 	{
-		_puts("Error\n");
-		exit(98);
+		if (r[c])
+			a = 1;
+		if (a)
+			_putchar(r[c] + '0');
+		c++;
 	}
-	if (!_strdigit(argv[1]) || !_strdigit(argv[2]))
-	{
-		_puts("Error\n");
-		exit(98);
-	}
-	result = strmul(argv[1], argv[2]);
-	if (result == NULL)
-	{
-		_puts("Error\n");
-		exit(98);
-	}
-	_puts(result);
+	if (!a)
+		_putchar('0');
 	_putchar('\n');
-	free(result);
-	exit(EXIT_SUCCESS);
+	free(r);
+	return (0);
 }
