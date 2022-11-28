@@ -1,20 +1,22 @@
-
-
 #include "lists.h"
+#include <stdlib.h>
+
 /**
- * sum_listint - sum fo all data of a linked list
- * @head: the pointer to the struct
+ * sum_listint - sums a listint list
  *
- * Return: the sum of all data in a linkeed list
+ * @head: head of list
+ *
+ * Return: sum of list
  */
 int sum_listint(listint_t *head)
 {
-	int add = 0;
+	int sum;
 
-	while (head != NULL)
-	{
-		add = add + head->n;
-		head = head->next;
-	}
-	return (add);
+	if (head == NULL)
+		return (0);
+
+	for (sum = 0; head != NULL; head = head->next)
+		sum += head->n;
+
+	return (sum);
 }
