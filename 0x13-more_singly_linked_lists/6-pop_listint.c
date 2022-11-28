@@ -1,67 +1,25 @@
 #include "lists.h"
+#include <stdlib.h>
+
 /**
- * pop_listint - this function deletes the head node of a list
- * @head: the pointer to the struct
+ * pop_listint - returns value of head node and removes it,
+ * 0 otherwise
  *
- * Return: head node's data
+ * @head: head of list
+ *
+ * Return: value of node, or 0 if list empty
  */
 int pop_listint(listint_t **head)
 {
-	listint_t *fr;
-	int nodedata;
+	int n;
+	listint_t *next;
 
-	if (*head == NULL)
-	{
+	if (head == NULL || *head == NULL)
 		return (0);
-	}
 
-	nodedata = (*head)->n;
-	fr = (*head)->next;
+	n = (*head)->n;
+	next = (*head)->next;
 	free(*head);
-	*head = fr;
-	return (nodedata);
-}#include "lists.h"
-/**
- * pop_listint - this function deletes the head node of a list
- * @head: the pointer to the struct
- *
- * Return: head node's data
- */
-int pop_listint(listint_t **head)
-{
-	listint_t *fr;
-	int nodedata;
-
-	if (*head == NULL)
-	{
-		return (0);
-	}
-
-	nodedata = (*head)->n;
-	fr = (*head)->next;
-	free(*head);
-	*head = fr;
-	return (nodedata);
-}#include "lists.h"
-/**
- * pop_listint - this function deletes the head node of a list
- * @head: the pointer to the struct
- *
- * Return: head node's data
- */
-int pop_listint(listint_t **head)
-{
-	listint_t *fr;
-	int nodedata;
-
-	if (*head == NULL)
-	{
-		return (0);
-	}
-
-	nodedata = (*head)->n;
-	fr = (*head)->next;
-	free(*head);
-	*head = fr;
-	return (nodedata);
+	*head = next;
+	return (n);
 }
